@@ -1,0 +1,8 @@
+[Unit]
+Description=LEDmath
+After=syslog.target network.target
+[Service]
+Type=simple
+ExecStart=/var/lib/cloud9/debian/boot.sh
+[Install]
+WantedBy=multi-user.target
