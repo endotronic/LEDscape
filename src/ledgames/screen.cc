@@ -10,9 +10,6 @@ flip_(false)
 {
 	set_background_color(0x00000000);
 	draw_start();
-	ledscape_printf(&pixels_[9], 64, 0x00401010, "LedGames\n Engine");
-	ledscape_printf(&pixels_[64*32 + 17], 64, 0x00101040, "Keith");
-	ledscape_printf(&pixels_[64*40 + 2], 64, 0x00101040, "Henrickson");
 	draw_end();
 	sleep(1);
 }
@@ -26,10 +23,10 @@ Screen::~Screen()
 }
 
 void Screen::drawpixel(uint32_t x, uint32_t y, uint32_t color) {
-	if ((x > 63) || (y > 63)) {
+	if ((x > 31) || (y > 31)) {
 		return;
 	}
-	uint32_t pixelnum = ((flip_ ? (63 - y) : y) * 64) + (flip_ ? (63 - x ) : x);
+	uint32_t pixelnum = ((flip_ ? (31 - y) : y) * 32) + (flip_ ? (31 - x ) : x);
 	pixels_[pixelnum] = color;
 }
 
@@ -40,7 +37,7 @@ void Screen::set_background_color(uint32_t color) {
 void Screen::draw_char(uint32_t row, uint32_t column, const uint32_t color, char c, bool flip) {
 	if (c < 0x20 || c > 127)
 		c = '?';
-  
+
 	const uint8_t* const f = fixed_font[c - 0x20];
 	for (int x = 0 ; x < 5 ; x++) {
 		uint8_t bits = f[x];
@@ -62,7 +59,7 @@ void Screen::draw_text(uint32_t row, uint32_t column, uint32_t color, std::strin
 		char c = output[i];
 		if (!c)
 			break;
-    
+
 		draw_char(row, column, color, c, flip);
 		if (flip) {
 			column -= 6;
@@ -73,7 +70,7 @@ void Screen::draw_text(uint32_t row, uint32_t column, uint32_t color, std::strin
 }
 
 void Screen::draw_start(void) {
-	for (int counter = 0; counter < (64*64); counter++) {
+	for (int counter = 0; counter < (32*32); counter++) {
 		pixels_[counter] = background_color_;
 	}
 }

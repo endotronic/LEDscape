@@ -84,27 +84,27 @@ ledscape_gpio_init(void)
 #if LEDSCAPE_MATRIX_OUTPUTS > 1
         for (unsigned i = 0 ; i < ARRAY_COUNT(gpios_output2) ; i+=2)
                 pru_gpio(gpios_output2[i], gpios_output2[i+1], 1, 0);
-#endif 
+#endif
 #if LEDSCAPE_MATRIX_OUTPUTS > 2
         for (unsigned i = 0 ; i < ARRAY_COUNT(gpios_output3) ; i+=2)
                 pru_gpio(gpios_output3[i], gpios_output3[i+1], 1, 0);
-#endif 
+#endif
 #if LEDSCAPE_MATRIX_OUTPUTS > 3
         for (unsigned i = 0 ; i < ARRAY_COUNT(gpios_output4) ; i+=2)
                 pru_gpio(gpios_output4[i], gpios_output4[i+1], 1, 0);
-#endif 
+#endif
 #if LEDSCAPE_MATRIX_OUTPUTS > 4
         for (unsigned i = 0 ; i < ARRAY_COUNT(gpios_output5) ; i+=2)
                 pru_gpio(gpios_output5[i], gpios_output5[i+1], 1, 0);
-#endif 
+#endif
 #if LEDSCAPE_MATRIX_OUTPUTS > 5
         for (unsigned i = 0 ; i < ARRAY_COUNT(gpios_output6) ; i+=2)
                 pru_gpio(gpios_output6[i], gpios_output6[i+1], 1, 0);
-#endif 
+#endif
 #if LEDSCAPE_MATRIX_OUTPUTS > 6
         for (unsigned i = 0 ; i < ARRAY_COUNT(gpios_output7) ; i+=2)
                 pru_gpio(gpios_output7[i], gpios_output7[i+1], 1, 0);
-#endif 
+#endif
 #if LEDSCAPE_MATRIX_OUTPUTS > 7
         for (unsigned i = 0 ; i < ARRAY_COUNT(gpios_output8) ; i+=2)
                 pru_gpio(gpios_output8[i], gpios_output8[i+1], 1, 0);
@@ -314,7 +314,7 @@ ledscape_matrix_draw(
 	// matrix is re-packed such that a 6-byte read will bring in
 	// the brightness values for all six outputs of a given panel.
 	// this means that the rows stride 16 * 3 pixels at a time.
-	// 
+	//
 	// this way the PRU can read all sixteen output pixels in
 	// one LBBO and clock them out.
 	// while there are eight output chains, there are two simultaneous
@@ -341,7 +341,7 @@ ledscape_matrix_draw(
 			// by the current output panel number and the total
 			// number of panels in the chain.
 			uint8_t * const op = &out[6*i + j*panel_stride];
-		
+
 			// copy the top half of this matrix
 			ledscape_matrix_panel_copy(
 				op,
@@ -389,7 +389,7 @@ ledscape_strip_draw(
 			row_out[2*pru_stride] = (p >>  0) & 0xFF; // blue
 		}
 	}
-	
+
 	// Wait for any current command to have been acknowledged
 	while (leds->ws281x->command)
 		;
@@ -654,19 +654,16 @@ ledscape_printf(
 /** Default ledscape config */
 #define DEFAULT_MATRIX(i) { \
 		{ 0*32, i*32, 0 }, \
-		{ 1*32, i*32, 0 }, \
-		{ 0*32, (i+1)*32, 0 }, \
-		{ 1*32, (i+1)*32, 0 }, \
 	} \
 
 ledscape_config_t ledscape_matrix_default = {
 	.matrix_config = {
 		.type		= LEDSCAPE_MATRIX,
-		.width		= 64,
-		.height		= 64,
+		.width		= 32,
+		.height		= 32,
 		.panel_width	= 32,
 		.panel_height 	= 32,
-		.leds_width	= 128,
+		.leds_width	= 32,
 		.leds_height	= 32,
 		.panels		= {
 			DEFAULT_MATRIX(0),
